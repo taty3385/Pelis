@@ -1,5 +1,5 @@
-import Nabvar from "./Views/Nabvar"
-
+import Nabvar from "./Components/Nabvar"
+import Carrucel from"./Components/Carrucel"
 
 function App() {
 
@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Nabvar/>
-     
+      <Carrucel/>
     </>
   )
 }
