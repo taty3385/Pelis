@@ -1,15 +1,14 @@
-import Nabvar from "./Components/Nabvar"
-import Carrucel from"./Components/Carrucel"
+import Nabvar from "./Components/Nabvar";
+import Home from "./Views/Home";
 
 function App() {
-
-
   return (
     <>
-      <Nabvar/>
-      <Carrucel/>
+      <Nabvar />
+      <Home />
+      
     </>
-  )
+  );
 }
 
-export default App
+export default App;

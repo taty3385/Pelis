@@ -5,23 +5,18 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination, Autoplay } from 'swiper/modules';
 import useMovie from "../Hooks/useMovie";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Box } from '@mui/material';
 
-export default function Carrucel() {
-  const { fetchData, movies } = useMovie();
-  const [loading, setLoading] = useState(true); 
+export default function CarrucelPlay() {
+  const { fetchData, movies ,handleImageLoad,loading } = useMovie();
+  const limitedMovies = movies.slice(0, 15);
 
   useEffect(() => {
-    fetchData();
+    fetchData("upcoming");
   }, [fetchData]);
 
-  const handleImageLoad = () => {
-    setLoading(false); // Marca las imágenes como cargadas
-  };
 
-  // Limitar las imágenes a las primeras 15
-  const limitedMovies = movies.slice(0, 15);
 
   return (
     <>
@@ -33,7 +28,7 @@ export default function Carrucel() {
           disableOnInteraction: false,
         }}
         className="mySwiper"
-        style={{ height: '70vh', width: '100vw', paddingTop: "3px"}} 
+        style={{ height: '70vh', width: '99%'}} 
       >
         {limitedMovies.length > 0 ? (
           limitedMovies.map((movie) => (
@@ -65,3 +60,5 @@ export default function Carrucel() {
     </>
   );
 }
+
+
