@@ -1,3 +1,4 @@
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -7,7 +8,8 @@ import Container from "@mui/material/Container";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom"; 
+import { Link, useNavigate} from "react-router-dom";
+
 import {
   Search,
   SearchIconWrapper,
@@ -15,15 +17,17 @@ import {
 } from "../style/Search.style";
 import useMovie from "../Hooks/useMovie";
 
-function Nabvar() {
-  const pages = ["Home", "Últimos Lanzamientos", "Populares"];
+function Navbar({ handleSearchSubmit ,handleSearchChange ,searchTerm}) { 
   const {
     anchorElNav,
     handleCloseNavMenu,
-    handleSearchChange,
-    searchTerm,
-    handleSearchSubmit,
+   
   } = useMovie();
+
+
+  const pages = ["Home", "Últimos Lanzamientos", "Populares" ,"⭐" ];
+
+
 
   return (
     <AppBar position="static">
@@ -125,18 +129,9 @@ function Nabvar() {
           </Box>
 
           {/* Barra de búsqueda */}
-          {/* <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search> */}
           <Box
             component="form"
-            onSubmit={handleSearchSubmit}
+           onSubmit={handleSearchSubmit}
             sx={{ display: "flex" }}
           >
             <Search>
@@ -160,4 +155,4 @@ function Nabvar() {
   );
 }
 
-export default Nabvar;
+export default Navbar;

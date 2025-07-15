@@ -8,7 +8,7 @@ import useMovie from "../Hooks/useMovie";
 import { Box, Typography } from '@mui/material';
 
 export default function CarrucelMovie({ category, title }) {
-  const { fetchData, movies } = useMovie();
+  const { fetchData, movies,handleCardClick } = useMovie();
 
   useEffect(() => {
     fetchData(category);
@@ -36,6 +36,7 @@ export default function CarrucelMovie({ category, title }) {
                   src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                   alt={movie.title}
                   style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  onClick={() => handleCardClick(movie.id)}
                 />
               </Box>
               <Typography variant="subtitle1" style={{ textAlign: 'center', marginTop: '10px' }}>
