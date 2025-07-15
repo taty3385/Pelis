@@ -116,7 +116,7 @@ export default function CarrucelPlay() {
                   style={{
                     width: '100vw',
                     height: '100vh',
-                    objectFit: 'cover',
+                   
                   }}
                  
                 />
@@ -126,13 +126,13 @@ export default function CarrucelPlay() {
                     bottom: 0,
                     left: 0,
                     width: '100%',
-                    height: '90%',
+                    height: '95%',
                     backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     color: 'white',
                     padding: '20px',
                   }}
                 > <Box width="35%" borderColor={"red"}>
-                  <Typography variant='h3' paddingBottom="20px">{movie.title}</Typography>
+                  <Typography variant='h3' mt={4} paddingBottom="20px">{movie.title}</Typography>
                   <Typography variant='h7'>{movie.overview}</Typography>
                   </Box>
                 </Box>

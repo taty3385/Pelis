@@ -196,6 +196,7 @@ import { useParams } from "react-router-dom";
 import useMovie from "../Hooks/useMovie";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import ModalComponent from "../Components/ModalComponent";
+import { yellow } from "@mui/material/colors";
 
 export default function Detalle() {
   const { getId, movieDetails, fetchVedeos } = useMovie();
@@ -260,7 +261,7 @@ export default function Detalle() {
       sx={{
         position: "relative",
         width: "100%",
-        height: "100vh",
+        minHeight: "100vh",
         backgroundImage: `url('https://image.tmdb.org/t/p/original/${
           movieDetails?.backdrop_path || "default-image.jpg"
         }')`,
@@ -280,58 +281,69 @@ export default function Detalle() {
         }}
       />
       {/* Contenido sobre la imagen */}
-      <Box sx={{ position: "relative", zIndex: 1, padding: 2 }}>
+      <Box sx={{ position: "relative", zIndex: 1, p: { xs: 1, sm: 2 } }}>
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
-            gap: 2,
-            alignItems: "flex-start",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: { xs: "center", md: "space-between" },
+            gap: { xs: 2, md: 2 },
+            alignItems: { xs: "center", md: "center" },
           }}
         >
           {/* Descripción de la película */}
-          <Box sx={{ width: "30%", height: "500px" }}>
+          <Box
+            sx={{
+              width: { xs: "80%", sm: "60%", md: "30%" },
+              height: { xs: "auto", md: "500px" },
+              marginTop: { xs: 2, md: "100px" },
+              alignSelf: { xs: "center", md: "flex-start" },
+              mb: { xs: 2, md: 0 },
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <img
               src={`https://image.tmdb.org/t/p/w500/${movieDetails?.poster_path}`}
               alt={movieDetails?.title}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              style={{ width: "100%", height: "100%", maxHeight: 500, objectFit: "contain" }}
             />
           </Box>
 
           <Box
             sx={{
-              width: "60%",
+              width: { xs: "100%", md: "60%" },
               height: "100%",
-              margin: "80px",
+              margin: { xs: 0, md: "80px" },
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: { xs: "center", md: "flex-start" },
             }}
           >
-            {/* Botones para ver los trailers */}
-          {videos && videos.length > 0 ? (
-            videos.map((videoItem, index) => (
-              <Button
-                key={index}
-                onClick={() => handleOpen(videoItem.key)}
-                variant="contained"
-                color="primary"
-                sx={{ marginBottom: "8px" }}
-              >
-                <TheatersIcon />
-              
-              </Button>
-            ))
-          ) : (
-            <Typography>No hay trailers disponibles.</Typography>
-          )}
+            <Box sx={{ display: 'flex', justifyContent: { xs: 'center', md: 'flex-end' }, width: '100%' }}>
+              {videos && videos.length > 0 ? (
+                <Button
+                  onClick={() => handleOpen(videos[0].key)}
+                  variant="contained"
+                  sx={{ marginBottom: "8px" }}
+                >
+                  <TheatersIcon />
+                </Button>
+              ) : (
+                <Typography>No hay trailers disponibles.</Typography>
+              )}
+            </Box>
             <Typography
               variant="h4"
               color="white"
               textAlign="center"
               paddingTop="5px"
-              sx={{ marginBottom: 5 }}
+              sx={{ marginBottom: 5, fontSize: { xs: 24, sm: 32 } }}
             >
               {movieDetails?.title || "Detalles de la Película"}
             </Typography>
-            <Typography variant="body1" color="white">
+            <Typography variant="body1" color="white" sx={{ fontSize: { xs: 14, sm: 18 } }}>
               {movieDetails?.overview || "No hay descripción disponible."}
             </Typography>
             <Box
@@ -339,6 +351,7 @@ export default function Detalle() {
                 display: "flex",
                 flexDirection: "column",
                 marginTop: "15px",
+                alignItems: { xs: "center", md: "flex-start" },
               }}
             >
               {movieDetails?.genres?.length > 0 ? (

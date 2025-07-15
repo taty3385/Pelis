@@ -1,65 +1,95 @@
-import React from "react";
-import { Card, CardContent, CardMedia, Typography, Grid } from "@mui/material";
+import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
+import { useFavoritos } from '../Context/favoritos.jsx';
 import img from '../assets/img-no-disponible.jpg'
 export default function movieCard({ movie, handleCardClick }) {
+  const { favoritos, agregarFavorito, eliminarFavorito } = useFavoritos();
+  const esFavorito = favoritos.some((f) => f.id === movie.id);
+
+  const handleStarClick = (e) => {
+    e.stopPropagation();
+    if (esFavorito) {
+      eliminarFavorito(movie.id);
+    } else {
+      agregarFavorito(movie);
+    }
+  };
+
   return (
-    <Grid
-      item
-      xs={12}
-      sm={6}
-      md={4}
-      key={movie.id}
+    <Card
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        width: '100%',
+        minWidth: 200,
+        maxWidth: 250,
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        boxSizing: 'border-box',
+        position: 'relative',
+        transition: "transform 0.2s, box-shadow 0.2s",
+        '&:hover': {
+          boxShadow: 6,
+          transform: 'scale(1.03)',
+          cursor: 'pointer',
+        }
       }}
+      onClick={() => handleCardClick(movie.id)}
     >
-      <Card
+      {/* Estrella de favorito */}
+      <IconButton
+        onClick={handleStarClick}
         sx={{
-          width: "19vw",
-          display: "flex",
-          flexDirection: "column",
-          height: "350px",
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          zIndex: 10,
+          color: esFavorito ? '#FFD700' : '#B0B0B0',
+          backgroundColor: 'rgba(0,0,0,0.6)',
+          boxShadow: 2,
+          width: 40,
+          height: 40,
+          '&:hover': { backgroundColor: 'rgba(0,0,0,0.9)' },
         }}
-        onClick={() => handleCardClick(movie.id)}
+        aria-label={esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}
       >
-        <CardMedia
-          component="img"
-          image={
-            movie.poster_path
-              ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
-              : `${img}`
-          }
-          alt={`Póster de la película ${movie.title}`}
+        {esFavorito ? <StarIcon fontSize="large" /> : <StarBorderIcon fontSize="large" />}
+      </IconButton>
+      <CardMedia
+        component="img"
+        image={
+          movie.poster_path
+            ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+            : `${img}`
+        }
+        alt={`Póster de la película ${movie.title}`}
+        sx={{
+          width: '100%',
+          height: '80%',
+          objectFit: 'cover',
+        }}
+      />
+      <CardContent
+        sx={{
+          flexGrow: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}
+      >
+        <Typography
+          variant="h6"
           sx={{
-            width: "100%",
-            height: "280px",
-            objectFit:'inherit',
-          }}
-        />
-        <CardContent
-          sx={{
-            flexGrow: 1,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            textAlign: "center",
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            width: '100%',
           }}
         >
-          <Typography
-            variant="h6"
-            sx={{
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              width: "100%",
-            }}
-          >
-            {movie.title}
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
+          {movie.title}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 }

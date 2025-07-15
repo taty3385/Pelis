@@ -1,4 +1,3 @@
-import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -7,8 +6,11 @@ import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/material/Button";
+import Modal from "@mui/material/Modal";
+import { useState } from "react";
+import { useFavoritos } from "../Context/favoritos.jsx";
 import MenuItem from "@mui/material/MenuItem";
-import { Link, useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 
 import {
   Search,
@@ -18,6 +20,10 @@ import {
 import useMovie from "../Hooks/useMovie";
 
 function Navbar({ handleSearchSubmit ,handleSearchChange ,searchTerm}) { 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const { favoritos } = useFavoritos();
   const {
     anchorElNav,
     handleCloseNavMenu,
@@ -92,8 +98,8 @@ function Navbar({ handleSearchSubmit ,handleSearchChange ,searchTerm}) {
                 return (
                   <Button
                     key={page}
-                    component={Link} // Envuelve el botón en el Link
-                    to="categoria/popular" // Ruta de redirección
+                    component={Link} 
+                    to="categoria/popular" 
                     sx={{ my: 2, color: "white", display: "block" }}
                     onClick={handleCloseNavMenu}
                   >
@@ -104,10 +110,20 @@ function Navbar({ handleSearchSubmit ,handleSearchChange ,searchTerm}) {
                 return (
                   <Button
                     key={page}
-                    component={Link} // Envuelve el botón en el Link
-                    to="categoria/top_rated" // Ruta de redirección para "Últimos Lanzamientos"
+                    component={Link}
+                    to="categoria/top_rated"
                     sx={{ my: 2, color: "white", display: "block" }}
                     onClick={handleCloseNavMenu}
+                  >
+                    {page}
+                  </Button>
+                );
+              } else if (page === "⭐") {
+                return (
+                  <Button
+                    key={page}
+                    sx={{ my: 2, color: "yellow", display: "block", fontSize: 24 }}
+                    onClick={handleOpen}
                   >
                     {page}
                   </Button>
@@ -117,7 +133,7 @@ function Navbar({ handleSearchSubmit ,handleSearchChange ,searchTerm}) {
                   <Button
                     key={page}
                     component={Link}
-                    to="/" // Ruta de redirección para "Home"
+                    to="/" 
                     sx={{ my: 2, color: "white", display: "block" }}
                     onClick={handleCloseNavMenu}
                   >
@@ -149,6 +165,55 @@ function Navbar({ handleSearchSubmit ,handleSearchChange ,searchTerm}) {
               Buscar
             </Button>
           </Box>
+        {/* Modal de favoritos */}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-favoritos-title"
+          aria-describedby="modal-favoritos-desc"
+        >
+          <Box sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 350,
+            bgcolor: 'rgba(0,0,0,0.7)',
+            border: '2px solid #222',
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+            maxHeight: '80vh',
+            overflowY: 'auto',
+          }}>
+            {/* Botón de cierre */}
+            <Box sx={{ position: 'absolute', top: 8, right: 8, zIndex: 20 }}>
+              <Button onClick={handleClose} sx={{ minWidth: 0, p: 0, color: 'rgba(255,255,255,0.7)', fontSize: 24, lineHeight: 1, background: 'transparent' }}>
+                &#10005;
+              </Button>
+            </Box>
+            <Typography id="modal-favoritos-title" variant="h6" component="h2" mb={2} color="rgba(255,255,255,0.9)">
+              Mis Películas Favoritas
+            </Typography>
+            {favoritos.length === 0 ? (
+              <Typography id="modal-favoritos-desc" color="rgba(255,255,255,0.7)">
+                No tienes películas favoritas.
+              </Typography>
+            ) : (
+              favoritos.map((pelicula) => (
+                <Box key={pelicula.id} mb={1} display="flex" alignItems="center">
+                  <Box
+                    component="img"
+                    src={pelicula.poster_path ? `https://image.tmdb.org/t/p/w92${pelicula.poster_path}` : "/img-no-disponible.jpg"}
+                    alt={pelicula.title}
+                    sx={{ width: 40, height: 60, objectFit: 'cover', mr: 2, borderRadius: 1, boxShadow: 2 }}
+                  />
+                  <Typography variant="body1" color="rgba(255,255,255,0.85)">{pelicula.title}</Typography>
+                </Box>
+              ))
+            )}
+          </Box>
+        </Modal>
         </Toolbar>
       </Container>
     </AppBar>

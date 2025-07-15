@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import  { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -16,7 +16,7 @@ export default function CarrucelMovie({ category, title }) {
 
   return (
     <Box sx={{ marginBottom: '30px', marginTop: '10px' }}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" ml={5} mb={2}>
         {title}
       </Typography>
 
