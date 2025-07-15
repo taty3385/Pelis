@@ -9,6 +9,7 @@ export default function Home() {
     <CarrucelPlay/>
     <CarrucelMovie category="popular" title="Los mas visto"/>
     <CarrucelMovie category="top_rated"  title="Los top 10 "/>
+    <CarrucelMovie category="upcoming"  title="Proximamente "/>
     </Box>
   )
 }
