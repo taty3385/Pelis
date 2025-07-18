@@ -9,6 +9,11 @@ export default function useMovie() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const apiKey = import.meta.env.VITE_API_KEY;
+  
+  // Debug para verificar la API key en producción
+  console.log('API Key disponible:', apiKey ? 'SÍ' : 'NO');
+  console.log('Entorno:', import.meta.env.MODE);
+  
   const [page, setPage] = useState(1);
   const [perPage] = useState(14);
   const [totalResults, setTotalResults] = useState(0);
