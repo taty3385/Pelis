@@ -1,15 +1,15 @@
 import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/material";
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarIcon from '@mui/icons-material/Star';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useFavoritos } from '../Context/favoritos.jsx';
 import img from '../assets/img-no-disponible.jpg'
 export default function movieCard({ movie, handleCardClick }) {
-  const { favoritos, agregarFavorito, eliminarFavorito } = useFavoritos();
-  const esFavorito = favoritos.some((f) => f.id === movie.id);
+  const { agregarFavorito, eliminarFavorito, esFavorito } = useFavoritos();
+  const isFavorito = esFavorito(movie.id);
 
-  const handleStarClick = (e) => {
+  const handleFavoriteClick = (e) => {
     e.stopPropagation();
-    if (esFavorito) {
+    if (isFavorito) {
       eliminarFavorito(movie.id);
     } else {
       agregarFavorito(movie);
@@ -36,24 +36,31 @@ export default function movieCard({ movie, handleCardClick }) {
       }}
       onClick={() => handleCardClick(movie.id)}
     >
-      {/* Estrella de favorito */}
+      {/* Botón de favorito */}
       <IconButton
-        onClick={handleStarClick}
+        onClick={handleFavoriteClick}
         sx={{
           position: 'absolute',
-          top: 10,
-          right: 10,
+          top: 8,
+          right: 8,
           zIndex: 10,
-          color: esFavorito ? '#FFD700' : '#B0B0B0',
-          backgroundColor: 'rgba(0,0,0,0.6)',
-          boxShadow: 2,
-          width: 40,
-          height: 40,
-          '&:hover': { backgroundColor: 'rgba(0,0,0,0.9)' },
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          color: isFavorito ? '#ff1744' : 'white',
+          padding: '6px',
+          '&:hover': {
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            color: isFavorito ? '#ff1744' : '#ff1744',
+            transform: 'scale(1.1)',
+          },
+          transition: 'all 0.3s ease',
         }}
-        aria-label={esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+        aria-label={isFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}
       >
-        {esFavorito ? <StarIcon fontSize="large" /> : <StarBorderIcon fontSize="large" />}
+        {isFavorito ? (
+          <FavoriteIcon sx={{ fontSize: { xs: '1.2rem', sm: '1.4rem' } }} />
+        ) : (
+          <FavoriteBorderIcon sx={{ fontSize: { xs: '1.2rem', sm: '1.4rem' } }} />
+        )}
       </IconButton>
       <CardMedia
         component="img"

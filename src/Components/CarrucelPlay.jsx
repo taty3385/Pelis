@@ -1,72 +1,3 @@
-
-
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import 'swiper/css';
-// import 'swiper/css/pagination';
-// import { Pagination, Autoplay } from 'swiper/modules';
-// import useMovie from "../Hooks/useMovie";
-// import { useEffect } from 'react';
-// import { Box, Typography } from '@mui/material';
-
-// export default function CarrucelPlay() {
-//   const { fetchData, movies ,handleImageLoad,loading ,handleCardClick } = useMovie();
-//   const limitedMovies = movies.slice(0, 15);
-
-//   useEffect(() => {
-//     fetchData("upcoming");
-//   }, [fetchData]);
-
-
-
-//   return (
-//     <>
-//       <Swiper
-//         pagination={true}
-//         modules={[Pagination, Autoplay]}
-//         autoplay={{
-//           delay: 5000,
-//           disableOnInteraction: false,
-//         }}
-//         className="mySwiper"
-//         style={{ height: '70vh', width: '99%'}} 
-//       >
-//         {limitedMovies.length > 0 ? (
-//           limitedMovies.map((movie) => (
-//             <SwiperSlide key={movie.id}  style={{ width: '100vw', height: '100%' }}>
-//               <Box
-//                 sx={{
-//                   width: '100vw', 
-//                   height: '100%', 
-//                   display: loading ? 'none' : 'block',
-//                 }}
-//               >
-//                 <Typography variant='h3'>{movie.title}</Typography>
-//                 console.log(movie);
-                
-//                 <Typography variant='h6'>{movie.overview}</Typography>
-//                 <img
-//                   src={`https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`}
-//                   alt={movie.title}
-//                   onLoad={handleImageLoad} 
-//                   style={{
-//                     width: '100vw', 
-//                     height: '100vh', 
-//                     objectFit: 'cover', 
-//                   }}
-//                   onClick={() => handleCardClick(movie.id)}
-//                 />
-//               </Box>
-//             </SwiperSlide>
-//           ))
-//         ) : (
-//           <p>Loading movies...</p>
-//         )}
-//       </Swiper>
-//     </>
-//   );
-// }
-
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -78,7 +9,7 @@ import { Box, Typography } from '@mui/material';
 export default function CarrucelPlay() {
   const { fetchData, movies, handleImageLoad, loading, handleCardClick } = useMovie();
   const limitedMovies = movies.slice(0, 15);
-  console.log(movies);
+
   
 
   useEffect(() => {
@@ -95,17 +26,24 @@ export default function CarrucelPlay() {
           disableOnInteraction: false,
         }}
         className="mySwiper"
-        style={{ height: '70vh', width: '99%' }}
+        style={{ 
+          height: '70vh', 
+          width: '100%',
+          minHeight: '300px',
+          maxHeight: '600px'
+        }}
       >
         {limitedMovies.length > 0 ? (
           limitedMovies.map((movie) => (
-            <SwiperSlide key={movie.id} style={{ width: '100vw', height: '100%' }}>
+            <SwiperSlide key={movie.id} style={{ width: '100%', height: '100%' }}>
               <Box
                 sx={{
                   position: 'relative',
-                  width: '100vw',
+                  width: '100%',
                   height: '100%',
                   display: loading ? 'none' : 'block',
+                  cursor: 'pointer',
+                  overflow: 'hidden'
                 }}
                 onClick={()=>handleCardClick(movie.id)}
               >
@@ -114,11 +52,11 @@ export default function CarrucelPlay() {
                   alt={movie.title}
                   onLoad={handleImageLoad}
                   style={{
-                    width: '100vw',
-                    height: '100vh',
-                   
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center',
                   }}
-                 
                 />
                 <Box
                   sx={{
@@ -126,21 +64,72 @@ export default function CarrucelPlay() {
                     bottom: 0,
                     left: 0,
                     width: '100%',
-                    height: '95%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    height: '100%',
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 70%, transparent 100%)',
                     color: 'white',
-                    padding: '20px',
+                    padding: { xs: '15px', sm: '20px', md: '25px' },
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
                   }}
-                > <Box width="35%" borderColor={"red"}>
-                  <Typography variant='h3' mt={4} paddingBottom="20px">{movie.title}</Typography>
-                  <Typography variant='h7'>{movie.overview}</Typography>
+                >
+                  <Box 
+                    sx={{ 
+                      width: { xs: '100%', sm: '80%', md: '60%', lg: '50%' },
+                      maxWidth: '600px'
+                    }}
+                  >
+                    <Typography 
+                      variant='h3' 
+                      sx={{
+                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem', lg: '3rem' },
+                        fontWeight: 'bold',
+                        marginBottom: { xs: '10px', sm: '15px', md: '20px' },
+                        textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
+                        lineHeight: 1.2
+                      }}
+                    >
+                      {movie.title}
+                    </Typography>
+                    <Typography 
+                      variant='body1'
+                      sx={{
+                        fontSize: { xs: '0.85rem', sm: '0.95rem', md: '1rem', lg: '1.1rem' },
+                        lineHeight: 1.4,
+                        textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
+                        display: '-webkit-box',
+                        WebkitLineClamp: { xs: 3, sm: 4, md: 5 },
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        maxHeight: { xs: '4rem', sm: '5rem', md: '6rem' }
+                      }}
+                    >
+                      {movie.overview}
+                    </Typography>
                   </Box>
                 </Box>
               </Box>
             </SwiperSlide>
           ))
         ) : (
-          <p>Loading movies...</p>
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            height: '300px',
+            width: '100%'
+          }}>
+            <Typography 
+              variant="body1" 
+              sx={{ 
+                fontSize: { xs: '0.9rem', sm: '1rem' },
+                color: 'text.secondary'
+              }}
+            >
+              Cargando películas...
+            </Typography>
+          </Box>
         )}
       </Swiper>
     </>

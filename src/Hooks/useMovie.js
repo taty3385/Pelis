@@ -15,7 +15,17 @@ export default function useMovie() {
   const [movieDetails, setMovieDetails] = useState(null);
   const [results, setResults] = useState([]);
   const [videos, setVideos] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [selectedVideoKey, setSelectedVideoKey] = useState(null);
 
+ 
+ 
+  
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
+
+  
   const navigate = useNavigate();
 
   const handleCloseNavMenu = () => {
@@ -130,5 +140,14 @@ export default function useMovie() {
     results,
     fetchVedeos,
     videos,
+    setVideos,
+    open,
+    setOpen,
+    handleOpen,
+    handleClose,
+    handleOpenNavMenu,
+    handleCloseNavMenu,
+    selectedVideoKey,
+    setSelectedVideoKey,
   };
 }
