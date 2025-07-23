@@ -4,10 +4,37 @@ import { useParams } from "react-router-dom";
 import useMovie from "../Hooks/useMovie";
 import TheatersIcon from "@mui/icons-material/Theaters";
 import ModalComponent from "../Components/ModalComponent";
+import imgNoDisponible from "../assets/img-no-disponible.jpg";
 
 export default function Detalle() {
   const { getId, movieDetails, fetchVedeos ,videos,setVideos ,open,setOpen,selectedVideoKey,setSelectedVideoKey  } = useMovie();
   const { id } = useParams();
+
+  // Función para manejar errores de imagen
+  const handleImageError = (e) => {
+    e.target.src = imgNoDisponible;
+  };
+
+  // URL de la imagen de fondo con fallback
+  const getBackdropUrl = () => {
+    if (movieDetails?.backdrop_path) {
+      return `https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`;
+    }
+    // Si no hay backdrop, usar el poster como fondo
+    if (movieDetails?.poster_path) {
+      return `https://image.tmdb.org/t/p/original${movieDetails.poster_path}`;
+    }
+    // Como último recurso, usar la imagen de no disponible
+    return imgNoDisponible;
+  };
+
+  // URL del poster con fallback
+  const getPosterUrl = () => {
+    if (movieDetails?.poster_path) {
+      return `https://image.tmdb.org/t/p/w500${movieDetails.poster_path}`;
+    }
+    return imgNoDisponible;
+  };
  
 
   // Cuando cambia el id, obtenemos los datos y los trailers
@@ -67,9 +94,7 @@ export default function Detalle() {
         position: "relative",
         width: "100%",
         minHeight: "100vh",
-        backgroundImage: `url('https://image.tmdb.org/t/p/original/${
-          movieDetails?.backdrop_path || "default-image.jpg"
-        }')`,
+        backgroundImage: `url('${getBackdropUrl()}')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -125,8 +150,9 @@ export default function Detalle() {
               }}
             >
               <img
-                src={`https://image.tmdb.org/t/p/w500/${movieDetails?.poster_path}`}
-                alt={movieDetails?.title}
+                src={getPosterUrl()}
+                alt={movieDetails?.title || "Póster de película"}
+                onError={handleImageError}
                 style={{
                   width: "100%",
                   height: "100%",

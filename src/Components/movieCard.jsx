@@ -2,7 +2,7 @@ import { Card, CardContent, CardMedia, Typography, IconButton } from "@mui/mater
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useFavoritos } from '../Context/favoritos.jsx';
-import img from '../assets/img-no-disponible.jpg'
+import imgNoDisponible from '../assets/img-no-disponible.jpg';
 export default function movieCard({ movie, handleCardClick }) {
   const { agregarFavorito, eliminarFavorito, esFavorito } = useFavoritos();
   const isFavorito = esFavorito(movie.id);
@@ -16,15 +16,26 @@ export default function movieCard({ movie, handleCardClick }) {
     }
   };
 
+  // Función para manejar errores de imagen
+  const handleImageError = (e) => {
+    e.target.src = imgNoDisponible;
+  };
+
+  // URL de la imagen con fallback
+  const getImageUrl = () => {
+    if (movie.poster_path) {
+      return `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+    }
+    return imgNoDisponible;
+  };
+
   return (
     <Card
       sx={{
         width: '100%',
-        minWidth: 200,
-        maxWidth: 250,
+        height: '100%', // Ocupa todo el espacio disponible
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
         boxSizing: 'border-box',
         position: 'relative',
         transition: "transform 0.2s, box-shadow 0.2s",
@@ -64,34 +75,40 @@ export default function movieCard({ movie, handleCardClick }) {
       </IconButton>
       <CardMedia
         component="img"
-        image={
-          movie.poster_path
-            ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
-            : `${img}`
-        }
+        src={getImageUrl()}
         alt={`Póster de la película ${movie.title}`}
+        onError={handleImageError}
         sx={{
           width: '100%',
-          height: '80%',
+          flex: 1, // Ocupa el espacio disponible
           objectFit: 'cover',
+          minHeight: 0 // Permite que flex funcione correctamente
         }}
       />
       <CardContent
         sx={{
-          flexGrow: 1,
+          flexShrink: 0, // No se encoge
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
+          padding: { xs: '8px', sm: '12px', md: '16px' }, // Padding responsivo
+          minHeight: { xs: '48px', sm: '56px', md: '64px' } // Altura mínima responsiva
         }}
       >
         <Typography
           variant="h6"
           sx={{
+            fontSize: { xs: '0.8rem', sm: '0.9rem', md: '1rem' },
+            fontWeight: 600,
             textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
             overflow: 'hidden',
+            display: '-webkit-box',
+            WebkitLineClamp: 2, // Máximo 2 líneas
+            WebkitBoxOrient: 'vertical',
+            lineHeight: 1.2,
             width: '100%',
+            color: 'text.primary'
           }}
         >
           {movie.title}
