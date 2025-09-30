@@ -206,7 +206,7 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ## 👥 Autor
 
-**Tatiana** - [@taty3385](https://github.com/taty3385)
+**Tamara** - [@taty3385](https://github.com/taty3385)
 
 ## 🙏 Agradecimientos
 
