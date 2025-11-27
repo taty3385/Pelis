@@ -30,7 +30,7 @@ Una aplicación web moderna y responsiva para explorar películas, construida co
 
 ## 🚀 Demo en Vivo
 
-🌐 **[Ver Aplicación](https://pelis-5phfnx3gr-tamaras-projects-a807a3db.vercel.app/)** - Desplegada en Vercel
+🌐 **[Ver Aplicación](https://pelis-steel.vercel.app/)** - Desplegada en Vercel
 
 ## 🛠️ Tecnologías Utilizadas
 
